@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
-import { useAppDispatch } from "../hooks";
-import { addNewTodo } from "../store/TodoSlice";
-import arrow from "../assets/arrow.png";
+import { useAppDispatch } from "../../hooks";
+import { addNewTodo } from "../../store/TodoSlice";
+import arrow from "../../assets/arrow.png";
+import "./NewTodoForm.scss";
 
 interface NewTodoFormProps {
     show: boolean;
@@ -17,7 +18,6 @@ export const NewTodoForm: FC<NewTodoFormProps> = ({ show, setShow }) => {
         if (newTodoValue) {
             dispatch(addNewTodo(newTodoValue));
         }
-
         setNewTodoValue("");
         setShow(true);
     };

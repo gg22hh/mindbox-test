@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import { deleteTodos } from "../store/TodoSlice";
+import { deleteTodos } from "../../../../store/TodoSlice";
+import "./TodosBottom.scss";
 
 interface TodosBottomProps {
     todosLeft: number | undefined;
@@ -14,9 +15,11 @@ export const TodosBottom: FC<TodosBottomProps> = ({
     setTodosStatus,
 }) => {
     const dispatch = useDispatch();
+    const left =
+        todosLeft === 1 ? `${todosLeft} item left` : `${todosLeft} items left`;
     return (
         <div className="todos__bottom">
-            <div className="todos__left">{`${todosLeft} items left`}</div>
+            <div className="todos__left">{left}</div>
             <div className="todos__status">
                 <button
                     className={

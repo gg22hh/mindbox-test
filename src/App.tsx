@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-import { NewTodoForm } from "./components/NewTodoForm";
-import { Todos } from "./components/Todos";
+import { NewTodoForm } from "./components/NewTodoForm/NewTodoForm";
+import { Todos } from "./components/Todos/Todos";
 
 function App() {
     const [show, setShow] = useState(false);

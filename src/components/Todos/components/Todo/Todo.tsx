@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import "./Todo.scss";
 
 interface TodoProps {
     title: string;

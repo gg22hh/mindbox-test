@@ -54,9 +54,10 @@ const todoSlice = createSlice({
             }
         },
         addNewTodo(state, action: PayloadAction<string>) {
+            const id = Math.random();
             state.todos.push({
-                userId: state.todos.length + 1,
-                id: state.todos.length + 1,
+                userId: id,
+                id: id,
                 title: action.payload,
                 completed: false,
             });
