@@ -17,7 +17,7 @@ export const Todos: FC = () => {
     const todosLeft = useTodosLeft();
     const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(fetchTodos());
+        !localStorage.getItem("todos") && dispatch(fetchTodos());
     }, [dispatch]);
     const todosList = filtredTodos?.map((todo) => {
         return (

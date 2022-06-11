@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITodos } from "../types/types";
 
 type Todo = {
-    userId: number;
     id: number;
     title: string;
     completed: boolean;
@@ -13,16 +12,23 @@ type TodosState = {
     loading: boolean;
 };
 
+const jsonLoc =
+    localStorage.getItem("todos") &&
+    JSON.parse(localStorage.getItem("todos") || "");
+
 const initialState: TodosState = {
-    todos: [],
+    todos: jsonLoc || [],
     loading: false,
 };
 
 export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+    const response = await fetch(
+        "https://6254687719bc53e2347e0da5.mockapi.io/todosss"
+    );
     if (response.ok) {
         const json = await response.json();
-        return json.slice(0, 3);
+        localStorage.setItem("todos", JSON.stringify(json));
+        return json;
     } else {
         return new Error("Ошибка при получении todos");
     }
@@ -37,30 +43,35 @@ const todoSlice = createSlice({
                 ...action.payload,
                 completed: !action.payload.completed,
             };
-            state.todos = state.todos.map((todo) => {
+            const updatedTodos = state.todos.map((todo) => {
                 if (todo.id === updatedTodo.id) {
                     return updatedTodo;
                 }
                 return todo;
             });
+            localStorage.setItem("todos", JSON.stringify(updatedTodos));
+            state.todos = updatedTodos;
         },
         deleteTodos(state) {
             const sure = window.confirm("Delete tasks ?");
             if (sure) {
-                const updatedTodos = [...state.todos];
-                state.todos = updatedTodos.filter(
+                const updatedTodos = [...state.todos].filter(
                     (todo) => todo.completed === false
                 );
+                localStorage.setItem("todos", JSON.stringify(updatedTodos));
+                state.todos = updatedTodos;
             }
         },
         addNewTodo(state, action: PayloadAction<string>) {
             const id = Math.random();
-            state.todos.push({
-                userId: id,
+            const newTodo = {
                 id: id,
                 title: action.payload,
                 completed: false,
-            });
+            };
+            const updatedTodos = [...state.todos, newTodo];
+            localStorage.setItem("todos", JSON.stringify(updatedTodos));
+            state.todos = updatedTodos;
         },
     },
     extraReducers: (builder) => {
